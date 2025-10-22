@@ -2,6 +2,9 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Auth\CustomLogin;
+use App\Filament\Pages\Auth\EditProfile;
+use Filament\FontProviders\GoogleFontProvider;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -37,7 +40,7 @@ class AdminPanelProvider extends PanelProvider
                     ->group(null)
                     ->url(fn (): string => Dashboard::getUrl()),
             ])
-            ->login()
+            ->login(CustomLogin::class)
             ->colors([
                 'primary' => Color::Blue,
                 'gray' => Color::Zinc,
@@ -46,6 +49,7 @@ class AdminPanelProvider extends PanelProvider
                 'danger' => Color::Rose,
                 'info' => Color::Sky,
             ])
+            ->font('Inter', provider: GoogleFontProvider::class)
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([

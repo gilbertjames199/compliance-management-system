@@ -47,4 +47,9 @@ class ComplyingOfficeResource extends Resource
             'edit' => EditComplyingOffice::route('/{record}/edit'),
         ];
     }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
 }

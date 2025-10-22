@@ -8,6 +8,7 @@ use App\Models\Requirement;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
+use Illuminate\Validation\Rule;
 
 class ComplyingOfficeForm
 {
@@ -17,18 +18,27 @@ class ComplyingOfficeForm
 
         return $schema
             ->components([
-                Select::make('department_code')
-                    ->options(getOffices())
-                    ->label('Department')
-                    ->required(),
-
-                // TextInput::make('requirement_id')
-                //     ->required(),
                 Select::make('requirement_id')
                     ->options(getRequirements())
                     ->searchable(true)
                     ->label('Requirement')
                     ->required(),
+
+                Select::make('department_code')
+                    ->options(getOffices())
+                    ->label('Department')
+                    ->required()
+                    ->rules(function (callable $get, $record) {
+                        return [
+                            Rule::unique('complying_offices', 'department_code')
+                                ->where(fn ($query) => $query->where('requirement_id', $get('requirement_id')))
+                                ->ignore($record?->id),
+                        ];
+                    })
+                    ->validationMessages([
+                        'unique' => 'This office already complies with the selected requirement.',
+                    ]),
+
                 Select::make('status')
                     ->options(fn () => StatusHelper::statusOptions())
                     ->required(),

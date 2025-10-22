@@ -20,13 +20,11 @@ class RequirementsTable
                 // TextColumn::make('requiring_agency')
                 //     ->searchable(),
                 TextColumn::make('requirement')
-                    ->searchable(),
+                    ->label('REQUIREMENT')->searchable(),
                 TextColumn::make('office.office')
-                    ->label('Requiring Agency')
+                    ->label('REQUIRING AGENCY')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('within')
-                    ->searchable(),
                 TextColumn::make('due_date')
                     ->searchable(),
                 TextColumn::make('created_at')

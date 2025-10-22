@@ -17,14 +17,14 @@ class ComplyingOfficesTable
             ->columns([
                 // TextColumn::make('department_code')
                 //     ->searchable(),
-                TextColumn::make('office.office')
-                    ->searchable(),
+                TextColumn::make('office.office')->label('OFFICE'),
                 // TextColumn::make('requirement_id')
                 //     ->searchable(),
                 TextColumn::make('requirement.requirement')
-                    ->searchable(),
+                    ->label('REQUIREMENT')
+                    ->searchable()->sortable(),
                 TextColumn::make('status')
-                    ->label('Status')
+                    ->label('STATUS')
                     ->formatStateUsing(fn ($state) => StatusHelper::getStatusLabel($state))
                     ->badge() // optional for color styling
                     ->color(fn ($state) => match ($state) {
@@ -32,7 +32,8 @@ class ComplyingOfficesTable
                         '0'  => 'warning',
                         '1'  => 'success',
                         default => 'gray',
-                    }),
+                    })
+                    ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
